@@ -10,24 +10,20 @@ public class PokerGame {
 	
 	public PokerGame(Player[] players){
 		this.players = players;
-		createCards();
 	}
 	
 	public PokerGame(){
-		createCards();
+	
 	}
 	
-	private void createCards() {
+	public void createPokerGame() {
+		isCreated = true;
 		String[] face = {"Ace", "Deuce", "Three", "Four", "Five", "Six",
 				"Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"};
 		String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
 		for (int index = 0; index < deckOfCards.length; index++) {
 			deckOfCards[index] = new Card(face[index % 13], suits[index /13]);
 		}
-	}
-	
-	public void createPokerGame() {
-		isCreated = true;
 	}
 	
 	public boolean isCreated() {
@@ -51,5 +47,6 @@ public class PokerGame {
 			throw new PokerGameException("Game Does Not Exist Please Create A Game");
 		if ( players == null || players.length < 2)
 			throw new PokerGameException("Players Does not Exist:: Game must have at least 2 players");
+		
 	}
 }

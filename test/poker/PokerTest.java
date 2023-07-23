@@ -1,19 +1,18 @@
 package poker;
-/*   FACEs = {"Ace", "Deuce", "Three", "Four", "Five", "Six",
- "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" */
-/*SUITS = "Hearts", "Diamonds", "Clubs", "Spades"*/
+
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PokerTest {
 	
+	
 	@Nested class PokerGameTest{
-		
+
 		@Test void testThatPokerGameCanBeCreated(){
 			PokerGame naijaWhot = new PokerGame();
 			naijaWhot.createPokerGame();
@@ -42,36 +41,34 @@ public class PokerTest {
 			Player bolaji = new Player("Bolaji");
 			Player[] players = new Player[]{mark, bolaji};
 			naijaWhot.setPlayer(players);
-			assertThatThrownBy(() -> naijaWhot.startGame())
-					.isExactlyInstanceOf(PokerGameException.class)
-					.hasMessageContaining("Game Does Not Have Any Card:: " +
-							                      "Game should have a deck of 52 cards");
+			assertThat(naijaWhot.getDeckOfCards().length).isEqualTo(52);
 		}
 		
 		@Test void testThatPokerGameCardsCanBeShuffled(){
-			
+		
 		}
 		
 		@Test void testThatCardCanBeDealtToPlayers(){
 		
 		}
 		
-//		@Test void
 	}
 	
 	@Nested class deckOfCardTest{
 		
-		@Test void testThatDeckOfCardHas52Cards(){
-		
-		}
-		
 		@Test void testThatEachCardHasAFaceAndASuit(){
-		
+			PokerGame pokerGame = new PokerGame();
+			pokerGame.createPokerGame();
+			assertThat(pokerGame.getDeckOfCards().length).isEqualTo(52);
+			for (int index = 0; index < pokerGame.getDeckOfCards().length; index++) {
+				assertThat(pokerGame.getDeckOfCards()[index].getFace()).isNotNull();
+				assertThat(pokerGame.getDeckOfCards()[index].getSuit()).isNotNull();
+			}
 		}
 		
 		@DisplayName("Each Face has equal number of suits")
 		@Test void testThatCardFacesAndSuitsAreSharedAccordingly(){
-		
+			
 		}
 	}
 	
