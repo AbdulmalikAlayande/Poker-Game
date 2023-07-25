@@ -2,13 +2,16 @@ package poker;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class PokerGame {
 	private final SecureRandom randomNumbers = new SecureRandom();
 	private Player[] players;
 	private final int NUMBER_OF_CARDS = BigInteger.valueOf(52).intValue();
-	private final Card[] deckOfCards = new Card[NUMBER_OF_CARDS];
+	private Card[] deckOfCards = new Card[NUMBER_OF_CARDS];
 	private boolean isCreated;
 	
 	public PokerGame(Player[] players){
@@ -75,6 +78,34 @@ public class PokerGame {
 		}
 		System.out.println("counter was later "+counter);
 		return isShuffled;
+	}
+	
+	public void dealCard() {
+		for (Player player : players) {
+			player.setCards(fiveRandomCards());
+		}
+	}
+	
+	private Card[] fiveRandomCards() {
+		Card[] generatedCards = new Card[BigInteger.valueOf(5).intValue()];
+		for (int index = 0; index < generatedCards.length; index++) {
+			int randomDeckIndex = randomNumbers.nextInt(BigInteger.valueOf(51).intValue());
+			Card randomCard = deckOfCards[randomDeckIndex];
+			generatedCards[index] = randomCard;
+			Stream<Card> filtered = Arrays.stream(deckOfCards).filter(card -> card != randomCard);
+			reassignDeckToFilteredCards(filtered);
+		}
+		return generatedCards;
+	}
+	
+	private void reassignDeckToFilteredCards(Stream<Card> filtered) {
+		int lengthOfFilteredCards = (int) filtered.count();
+		Object[] filteredToArray = filtered.toArray();
+		Card[] newDeck = new Card[lengthOfFilteredCards];
+		for (int index = 0; index < newDeck.length; index++) {
+			newDeck[index] = (Card) filteredToArray[index];
+		}
+		deckOfCards = newDeck;
 	}
 }
 

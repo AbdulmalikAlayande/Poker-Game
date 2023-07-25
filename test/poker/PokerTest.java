@@ -3,6 +3,9 @@ package poker;
 
 import org.junit.jupiter.api.*;
 
+import java.math.BigInteger;
+import java.util.Arrays;
+
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,6 +56,19 @@ public class PokerTest {
 		}
 		
 		@Test void testThatCardCanBeDealtToPlayers(){
+			naijaWhot.createPokerGame();
+			naijaWhot.createPokerGame();
+			Player[] players = new Player[]{mark, bolaji};
+			naijaWhot.setPlayer(players);
+			naijaWhot.shuffle();
+			naijaWhot.dealCard();
+			assertThat(Arrays.stream(mark.getCards()).findAny().isPresent()).isTrue();
+			assertThat(Arrays.stream(bolaji.getCards()).findAny().isPresent()).isTrue();
+			assertThat(Arrays.stream(mark.getCards()).count()).isEqualTo(BigInteger.valueOf(5).intValue());
+			assertThat(Arrays.stream(bolaji.getCards()).count()).isEqualTo(BigInteger.valueOf(5).intValue());
+		}
+		
+		@Test void testThatCardHasToBeShuffledBeforeTheyAreDealtToPlayers(){
 		
 		}
 		
