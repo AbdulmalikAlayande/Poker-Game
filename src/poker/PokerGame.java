@@ -53,32 +53,27 @@ public class PokerGame {
 		
 	}
 	public void shuffle() {
-		int numberOfTimesToShuffle = randomNumbers.nextInt(BigInteger.valueOf(10).intValue());
-		System.out.println("number of times to shuffle is: "+numberOfTimesToShuffle);
+		int numberOfTimesToShuffle = randomNumbers.nextInt(BigInteger.valueOf(51).intValue());
 		for (int index = 0; index < numberOfTimesToShuffle; index++) {
 			int indexOfFirstCardToShuffle = randomNumbers.nextInt(BigInteger.valueOf(51).intValue());
 			int indexOfSecondCardToShuffle = randomNumbers.nextInt(BigInteger.valueOf(51).intValue());
 			Card emptyContainer = deckOfCards[indexOfFirstCardToShuffle];
 			deckOfCards[indexOfFirstCardToShuffle] = deckOfCards[indexOfSecondCardToShuffle];
 			deckOfCards[indexOfSecondCardToShuffle] = emptyContainer;
-			System.out.println("index of first card to shuffle is: "+indexOfFirstCardToShuffle);
-			System.out.println("index of second card to shuffle is: "+indexOfSecondCardToShuffle);
 		}
 	}
 	
-	public boolean isShuffled(Card[] deckOfCardsBeforeShuffling, Card[] deckOfCardsAfterShuffling){
+	public boolean isShuffled(Card[] deckOfCardsBeforeShuffling){
 		int counter = 0;
 		boolean isShuffled = false;
-		while (counter < deckOfCardsAfterShuffling.length){
-			if (deckOfCardsBeforeShuffling[counter] != deckOfCardsAfterShuffling[counter]) {
+		while (counter < deckOfCards.length){
+			if (!(deckOfCardsBeforeShuffling[counter].equals(deckOfCards[counter]))) {
 				isShuffled = true;
 				break;
 			}
 			counter++;
 		}
-		System.out.println("Before:: "+Arrays.toString(deckOfCardsBeforeShuffling));
-		System.out.println("After:: "+Arrays.toString(deckOfCardsAfterShuffling));
-		System.out.println("isShuffled:: "+isShuffled);
+		System.out.println("counter was later "+counter);
 		return isShuffled;
 	}
 }
