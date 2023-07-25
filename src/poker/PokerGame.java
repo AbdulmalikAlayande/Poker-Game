@@ -1,8 +1,11 @@
 package poker;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Arrays;
 
 public class PokerGame {
+	private final SecureRandom randomNumbers = new SecureRandom();
 	private Player[] players;
 	private final int NUMBER_OF_CARDS = BigInteger.valueOf(52).intValue();
 	private final Card[] deckOfCards = new Card[NUMBER_OF_CARDS];
@@ -49,4 +52,34 @@ public class PokerGame {
 			throw new PokerGameException("Players Does not Exist:: Game must have at least 2 players");
 		
 	}
+	public void shuffle() {
+		int numberOfTimesToShuffle = randomNumbers.nextInt(BigInteger.valueOf(10).intValue());
+		System.out.println("number of times to shuffle is: "+numberOfTimesToShuffle);
+		for (int index = 0; index < numberOfTimesToShuffle; index++) {
+			int indexOfFirstCardToShuffle = randomNumbers.nextInt(BigInteger.valueOf(51).intValue());
+			int indexOfSecondCardToShuffle = randomNumbers.nextInt(BigInteger.valueOf(51).intValue());
+			Card emptyContainer = deckOfCards[indexOfFirstCardToShuffle];
+			deckOfCards[indexOfFirstCardToShuffle] = deckOfCards[indexOfSecondCardToShuffle];
+			deckOfCards[indexOfSecondCardToShuffle] = emptyContainer;
+			System.out.println("index of first card to shuffle is: "+indexOfFirstCardToShuffle);
+			System.out.println("index of second card to shuffle is: "+indexOfSecondCardToShuffle);
+		}
+	}
+	
+	public boolean isShuffled(Card[] deckOfCardsBeforeShuffling, Card[] deckOfCardsAfterShuffling){
+		int counter = 0;
+		boolean isShuffled = false;
+		while (counter < deckOfCardsAfterShuffling.length){
+			if (deckOfCardsBeforeShuffling[counter] != deckOfCardsAfterShuffling[counter]) {
+				isShuffled = true;
+				break;
+			}
+			counter++;
+		}
+		System.out.println("Before:: "+Arrays.toString(deckOfCardsBeforeShuffling));
+		System.out.println("After:: "+Arrays.toString(deckOfCardsAfterShuffling));
+		System.out.println("isShuffled:: "+isShuffled);
+		return isShuffled;
+	}
 }
+

@@ -1,6 +1,7 @@
 package poker;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -9,43 +10,49 @@ import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PokerTest {
+	PokerGame naijaWhot;
+	Player mark;
+	Player bolaji;
+	@BeforeEach void startAllTestWith(){
+		mark = new Player("Mark");
+		bolaji = new Player("Bolaji");
+		naijaWhot = new PokerGame();
+	}
 	
 	
 	@Nested class PokerGameTest{
 
 		@Test void testThatPokerGameCanBeCreated(){
-			PokerGame naijaWhot = new PokerGame();
 			naijaWhot.createPokerGame();
 			assertTrue(naijaWhot.isCreated());
 			assertThat(naijaWhot.isCreated()).isTrue();
 		}
 		
 		@Test void testThatGameExistsBeforeGameStarts(){
-			PokerGame naijaWhot = new PokerGame();
-			assertThatThrownBy(()-> naijaWhot.startGame())
+			assertThatThrownBy(naijaWhot::startGame)
 					.isInstanceOf(PokerGameException.class)
 					.hasMessageContaining("Game Does Not Exist Please Create A Game");
 		}
 		
 		@Test void testThatGameMustHavePlayerBeforeGameStarts(){
-			PokerGame naijaWhot = new PokerGame();
 			naijaWhot.createPokerGame();
-			assertThrowsExactly(PokerGameException.class, ()->naijaWhot.startGame(),
+			assertThrowsExactly(PokerGameException.class, naijaWhot::startGame,
 					"Players Does not Exist:: Game must have at least 2 players");
 		}
 		
 		@Test void testThatGameMustHaveADeckOf52CardsBeforeGameStarts(){
-			PokerGame naijaWhot = new PokerGame();
 			naijaWhot.createPokerGame();
-			Player mark = new Player("Mark");
-			Player bolaji = new Player("Bolaji");
 			Player[] players = new Player[]{mark, bolaji};
 			naijaWhot.setPlayer(players);
 			assertThat(naijaWhot.getDeckOfCards().length).isEqualTo(52);
 		}
 		
 		@Test void testThatPokerGameCardsCanBeShuffled(){
-		
+			naijaWhot.createPokerGame();
+			Card[] deckOfCardsBeforeShuffling = naijaWhot.getDeckOfCards();
+			naijaWhot.shuffle();
+			Card[] deckOfCardsAfterShuffling = naijaWhot.getDeckOfCards();
+			assertThat(naijaWhot.isShuffled(deckOfCardsBeforeShuffling,deckOfCardsAfterShuffling)).isTrue();
 		}
 		
 		@Test void testThatCardCanBeDealtToPlayers(){
@@ -57,12 +64,11 @@ public class PokerTest {
 	@Nested class deckOfCardTest{
 		
 		@Test void testThatEachCardHasAFaceAndASuit(){
-			PokerGame pokerGame = new PokerGame();
-			pokerGame.createPokerGame();
-			assertThat(pokerGame.getDeckOfCards().length).isEqualTo(52);
-			for (int index = 0; index < pokerGame.getDeckOfCards().length; index++) {
-				assertThat(pokerGame.getDeckOfCards()[index].getFace()).isNotNull();
-				assertThat(pokerGame.getDeckOfCards()[index].getSuit()).isNotNull();
+			naijaWhot.createPokerGame();
+			assertThat(naijaWhot.getDeckOfCards().length).isEqualTo(52);
+			for (int index = 0; index < naijaWhot.getDeckOfCards().length; index++) {
+				assertThat(naijaWhot.getDeckOfCards()[index].getFace()).isNotNull();
+				assertThat(naijaWhot.getDeckOfCards()[index].getSuit()).isNotNull();
 			}
 		}
 		
