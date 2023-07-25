@@ -66,6 +66,7 @@ public class PokerTest {
 			assertThat(Arrays.stream(bolaji.getCards()).findAny().isPresent()).isTrue();
 			assertThat(Arrays.stream(mark.getCards()).count()).isEqualTo(BigInteger.valueOf(5).intValue());
 			assertThat(Arrays.stream(bolaji.getCards()).count()).isEqualTo(BigInteger.valueOf(5).intValue());
+			assertThat(naijaWhot.getDeckOfCards().length).isEqualTo(42);
 		}
 		
 		@Test void testThatCardHasToBeShuffledBeforeTheyAreDealtToPlayers(){
